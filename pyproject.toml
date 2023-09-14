@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "sf-policies"
+version = "0.1.0"
+description = "Policies documentation for Social Finance"
+authors = ["Kaj Siebert <kaj@k-si.com>"]
+license = "MIT"
+packages = []
+
+[tool.poetry.dependencies]
+python = "^3.9"
+Sphinx = "^7.2.6"
+myst-parser = "^2.0.0"
+docutils = "^0.20.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
