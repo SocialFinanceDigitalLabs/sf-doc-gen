@@ -2,6 +2,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate
 
+from ._fonts import INTER_REGULAR
 from ._sf_logo import SFLogo
 from .colours import black, light_blue
 
@@ -34,7 +35,7 @@ class PolicyTemplate(BaseDocTemplate):
         for page_number in self._pages:
             text = f"Page {page_number} of {max_pagenum}"
             canvas.beginForm(f"PageNumber{page_number}")
-            canvas.setFont("Inter Regular", 8)
+            canvas.setFont(INTER_REGULAR, 8)
             canvas.drawString(0.5 * inch, 0.75 * inch, text)
             canvas.endForm()
 
@@ -56,15 +57,15 @@ class PolicyTemplate(BaseDocTemplate):
             height=logo_height,
         )
 
-        canvas.setFont("Inter Bold", 10)
+        canvas.setFont(INTER_REGULAR, 10)
         canvas.drawCentredString(4.135 * inch, 11 * inch, "Social Finance Limited")
 
-        canvas.setFont("Inter Regular", 10)
+        canvas.setFont(INTER_REGULAR, 10)
         canvas.drawCentredString(4.135 * inch, 10.8 * inch, "+44 (0)20 7770 6836")
 
         canvas.drawString(5.27 * inch, 11 * inch, "87 Vauxhall Walk, London SE11 5HJ")
         canvas.drawString(5.27 * inch, 10.8 * inch, "socialfinance.org.uk")
-        canvas.setFont("Inter Regular", 8)
+        canvas.setFont(INTER_REGULAR, 8)
         canvas.drawRightString(
             7.5 * inch,
             0.75 * inch,
