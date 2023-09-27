@@ -11,6 +11,8 @@ packages = [
 [tool.poetry.dependencies]
 python = "^3.9"
 reportlab = "^4.0.5"
+fonttools = "^4.42.1"
+python-frontmatter = "^1.0.0"
 
 
 [build-system]
