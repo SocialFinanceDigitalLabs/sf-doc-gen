@@ -68,7 +68,9 @@ def create_pdf(source, filename):
             ]
             for r in change_management
         ]
-        table = Table(data, colWidths=[1.75 * inch] * 4)
+        page_width = doc.pagesize[0] - doc.leftMargin - doc.rightMargin
+
+        table = Table(data, colWidths=[page_width / 4] * 4)
         table.setStyle(getChangeManagementTableStyle())
         Story.append(table)
         Story.append(PageBreak())

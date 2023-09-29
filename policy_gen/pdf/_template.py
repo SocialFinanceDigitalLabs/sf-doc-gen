@@ -1,5 +1,6 @@
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
+from reportlab.pdfbase import pdfmetrics
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate
 
 from ._fonts import INTER_BOLD, INTER_REGULAR
@@ -8,14 +9,20 @@ from .colours import black, light_blue
 
 
 class PolicyTemplate(BaseDocTemplate):
+    """
+    Template for the policy document based on the reportlab BaseDocTemplate.
+
+    The template is tailored for A4 paper with a 1.5 inch top margin and 0.75 inch left and right margins.
+    """
+
     def __init__(self, filename, **kwargs):
         BaseDocTemplate.__init__(
             self,
             filename,
             pagesize=A4,
             topMargin=1.5 * inch,
-            leftMargin=inch / 2,
-            rightMargin=inch / 2,
+            leftMargin=0.75 * inch,
+            rightMargin=0.75 * inch,
             **kwargs,
         )
 
@@ -63,11 +70,16 @@ class PolicyTemplate(BaseDocTemplate):
         canvas.setFont(INTER_REGULAR, 10)
         canvas.drawCentredString(4.135 * inch, 10.8 * inch, "+44 (0)20 7770 6836")
 
-        canvas.drawString(5.27 * inch, 11 * inch, "87 Vauxhall Walk, London SE11 5HJ")
-        canvas.drawString(5.27 * inch, 10.8 * inch, "socialfinance.org.uk")
+        address_string = "87 Vauxhall Walk, London SE11 5HJ"
+        text_width = pdfmetrics.stringWidth(address_string, INTER_REGULAR, 10) + (
+            0.5 * inch
+        )
+        canvas.drawString(A4[0] - text_width, 11 * inch, address_string)
+        canvas.drawString(A4[0] - text_width, 10.8 * inch, "socialfinance.org.uk")
+
         canvas.setFont(INTER_REGULAR, 8)
         canvas.drawRightString(
-            7.5 * inch,
+            A4[0] - (0.5 * inch),
             0.75 * inch,
             "Social Finance is authorised and regulated by the Financial Conduct Authority FCA No. 497568",
         )
@@ -80,10 +92,10 @@ class PolicyTemplate(BaseDocTemplate):
             # Draw the horizontal rule
             canvas.setStrokeColor(light_blue)
             canvas.setLineWidth(0.045 * inch)
-            canvas.line(0.5 * inch, 10 * inch, 7.5 * inch, 10 * inch)
+            canvas.line(0.5 * inch, 10 * inch, A4[0] - (0.5 * inch), 10 * inch)
 
         canvas.setStrokeColor(black)
         canvas.setLineWidth(0.015 * inch)
-        canvas.line(0.5 * inch, 1 * inch, 7.5 * inch, 1 * inch)
+        canvas.line(0.5 * inch, 1 * inch, A4[0] - (0.5 * inch), 1 * inch)
 
         canvas.restoreState()
