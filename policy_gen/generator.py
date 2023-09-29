@@ -21,6 +21,20 @@ from policy_gen.level_numbering import NumberContext
 from .pdf import PolicyTemplate, getChangeManagementTableStyle, getPolicyStylesheet
 
 
+class Grouper:
+    def __init__(self, story):
+        self.current = []
+        self.story = story
+
+    def append(self, item):
+        self.current.append(item)
+
+    def flush(self):
+        if len(self.current) > 0:
+            self.story.append(KeepTogether(self.current))
+            self.current = []
+
+
 def create_pdf(source, filename):
     with open(source) as f:
         post = frontmatter.load(f)
@@ -31,7 +45,7 @@ def create_pdf(source, filename):
     soup = BeautifulSoup(html, "html.parser")
 
     # Define a custom document with headers and footers
-    doc = PolicyTemplate(filename)
+    doc = PolicyTemplate(filename.as_posix())
 
     styles = getPolicyStylesheet()
 
@@ -62,20 +76,6 @@ def create_pdf(source, filename):
     paragraph_ctx = NumberContext()
 
     list_numbers = deque()
-
-    class Grouper:
-        def __init__(self, story):
-            self.current = []
-            self.story = story
-
-        def append(self, item):
-            self.current.append(item)
-
-        def flush(self):
-            if len(self.current) > 0:
-                self.story.append(KeepTogether(self.current))
-                self.current = []
-
     current_batch = Grouper(Story)
     for tag in soup:
         if tag.name is None:
