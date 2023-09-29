@@ -1,4 +1,6 @@
+from reportlab.lib.enums import TA_LEFT
 from reportlab.lib.styles import StyleSheet1, getSampleStyleSheet
+from reportlab.lib.units import inch
 from reportlab.platypus import TableStyle
 
 from ._fonts import INTER_REGULAR, SILKA_MEDIUM, register_fonts
@@ -11,8 +13,20 @@ def getPolicyStylesheet() -> StyleSheet1:
 
     stylesheet = getSampleStyleSheet()
 
-    stylesheet["BodyText"].fontName = INTER_REGULAR
-    stylesheet["Heading1"].fontName = SILKA_MEDIUM
+    TITLE = stylesheet["Title"]
+    TITLE.fontName = SILKA_MEDIUM
+    TITLE.fontSize = 24
+    TITLE.alignment = TA_LEFT
+
+    H1 = stylesheet["Heading1"]
+    H1.fontName = SILKA_MEDIUM
+    H1.fontSize = 14
+    H1.spaceBefore = inch / 2
+
+    BODY = stylesheet["BodyText"]
+    BODY.fontName = INTER_REGULAR
+    BODY.fontSize = 12
+    BODY.leading = 16
 
     return stylesheet
 

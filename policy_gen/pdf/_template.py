@@ -2,7 +2,7 @@ from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 from reportlab.platypus import BaseDocTemplate, Frame, PageTemplate
 
-from ._fonts import INTER_REGULAR
+from ._fonts import INTER_BOLD, INTER_REGULAR
 from ._sf_logo import SFLogo
 from .colours import black, light_blue
 
@@ -13,7 +13,7 @@ class PolicyTemplate(BaseDocTemplate):
             self,
             filename,
             pagesize=A4,
-            topMargin=1.25 * inch,
+            topMargin=1.5 * inch,
             leftMargin=inch / 2,
             rightMargin=inch / 2,
             **kwargs,
@@ -46,7 +46,7 @@ class PolicyTemplate(BaseDocTemplate):
 
         # Logo
         logo_image = SFLogo()
-        logo_height = 0.5 * inch
+        logo_height = 0.45 * inch
         logo_width = logo_image.adjust_width_to_height(logo_height)
 
         canvas.drawInlineImage(
@@ -57,7 +57,7 @@ class PolicyTemplate(BaseDocTemplate):
             height=logo_height,
         )
 
-        canvas.setFont(INTER_REGULAR, 10)
+        canvas.setFont(INTER_BOLD, 10)
         canvas.drawCentredString(4.135 * inch, 11 * inch, "Social Finance Limited")
 
         canvas.setFont(INTER_REGULAR, 10)
