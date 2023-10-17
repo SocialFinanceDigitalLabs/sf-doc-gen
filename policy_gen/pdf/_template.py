@@ -15,7 +15,7 @@ class PolicyTemplate(BaseDocTemplate):
     The template is tailored for A4 paper with a 1.5 inch top margin and 0.75 inch left and right margins.
     """
 
-    def __init__(self, filename, **kwargs):
+    def __init__(self, filename, metadata=None, **kwargs):
         BaseDocTemplate.__init__(
             self,
             filename,
@@ -25,6 +25,7 @@ class PolicyTemplate(BaseDocTemplate):
             rightMargin=0.75 * inch,
             **kwargs,
         )
+        self.metadata = metadata or {}
 
         frame = Frame(
             self.leftMargin, self.bottomMargin, self.width, self.height, id="normal"
@@ -39,8 +40,15 @@ class PolicyTemplate(BaseDocTemplate):
         canvas = self.canv
         max_pagenum = max(self._pages)
 
+        template = "Page {page_number} of {max_pagenum}"
+        if "git.current" in self.metadata:
+            current_sha = self.metadata["git.current"]
+            template += f" - rev. {current_sha[:7]}"
+            if self.metadata.get("git.dirty", False):
+                template += "*"
+
         for page_number in self._pages:
-            text = f"Page {page_number} of {max_pagenum}"
+            text = template.format(page_number=page_number, max_pagenum=max_pagenum)
             canvas.beginForm(f"PageNumber{page_number}")
             canvas.setFont(INTER_REGULAR, 8)
             canvas.drawString(0.5 * inch, 0.75 * inch, text)

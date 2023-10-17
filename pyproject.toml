@@ -16,6 +16,7 @@ python-frontmatter = "^1.0.0"
 markdown = "^3.4.4"
 beautifulsoup4 = "^4.12.2"
 click = "^8.1.7"
+gitpython = "^3.1.38"
 
 [tool.poetry.scripts]
 policy-gen = "policy_gen._cli:generate"
