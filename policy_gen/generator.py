@@ -116,7 +116,8 @@ def create_pdf(source: Path, filename: Path):
         for revision in change_management:
             version = str(revision.get("version", ""))
             if "git_sha" in revision:
-                version += f"<br/>{revision['git_sha'][:7]}"
+                link = f"https://github.com/SocialFinanceDigitalLabs/policies/commit/{revision['git_sha']}"
+                version += f"<br/><a href='{link}'>{revision['git_sha'][:7]}</a>"
             date = str(revision.get("date", ""))
             summary = revision.get("summary", "")
             approved_by = revision.get("approvedBy", "")
