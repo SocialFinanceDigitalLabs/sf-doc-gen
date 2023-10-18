@@ -113,10 +113,16 @@ def create_pdf(source: Path, filename: Path):
     change_management = metadata.get("changeManagement", None)
     if change_management:
         data = [["Version", "Date", "Summary", "Aproved By"]]
-        for revision in change_management:
+        for ix, revision in enumerate(change_management):
+            prev_revision = change_management[ix - 1] if ix > 0 else {}
             version = str(revision.get("version", ""))
-            if "git_sha" in revision:
-                link = f"https://github.com/SocialFinanceDigitalLabs/policies/commit/{revision['git_sha']}"
+            git_sha = revision.get("git_sha")
+            if git_sha:
+                prev_sha = prev_revision.get("git_sha")
+                if prev_sha:
+                    link = f"https://github.com/SocialFinanceDigitalLabs/policies/compare/{prev_sha}...{git_sha}"
+                else:
+                    link = f"https://github.com/SocialFinanceDigitalLabs/policies/commit/{git_sha}"
                 version += f"<br/><a href='{link}'>{revision['git_sha'][:7]}</a>"
             date = str(revision.get("date", ""))
             summary = revision.get("summary", "")
